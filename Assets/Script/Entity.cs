@@ -9,15 +9,30 @@ public class Entity : MonoBehaviour
     private int health;
 
     // Range 0 (hungry) to 1 (full)
-    public float food = 0;
+    public float hunger = 0;
 
-    public GameObject target;
+    public bool canMove = false;
+
+    protected Vector2 target;
+    protected GameObject food;
 
     protected IAstarAI ai;
 
     public virtual void Start()
     {
         ai = GetComponent<IAstarAI>();
+    }
+
+    public virtual void Update()
+    {
+        if (hunger > 0)
+        {
+            hunger -= .01f * Time.deltaTime;
+            if (hunger < 0) hunger = 0;
+        }
+
+        ai.canMove = canMove;
+        if (target != null) ai.destination = target;
     }
 
     protected void TakeDamage(int d)
@@ -41,15 +56,16 @@ public class Entity : MonoBehaviour
         }
         return nearest;
     }
-    public void SetDestination(Vector2 d)
-    {
-        if (d != null)
-        {
-            ai.destination = d;
-        }
-    }
-    public void SetDestination(GameObject go)
-    {
-        SetDestination(go.transform.position);
-    }
+
+    public void SetTarget(Vector2 t)
+    { target = t; }
+
+    public void SetTarget(GameObject go)
+    { target = go.transform.position; }
+
+    public void StartMoving()
+    { canMove = true; }
+
+    public void StopMoving()
+    { canMove = false; }
 }

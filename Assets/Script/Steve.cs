@@ -5,17 +5,19 @@ public class Steve : Entity
     public enum State { Idling, Wandering, ToEating, Eating };
     public State state = State.Idling;
 
-    //private ParticleSystem eatingParticle;
+    private ParticleSystem eatingParticle;
 
     public override void Start()
     {
         base.Start();
 
-        //eatingParticle = GetComponentInChildren<ParticleSystem>();
+        eatingParticle = GetComponentInChildren<ParticleSystem>();
     }
 
-    private void Update()
+    public override void Update()
     {
+        base.Update();
+
         switch (state)
         {
             case State.Idling:
@@ -25,17 +27,11 @@ public class Steve : Entity
                 Wandering();
                 break;
             case State.ToEating:
-                ToGrazing();
+                ToEating();
                 break;
             case State.Eating:
-                Grazing();
+                Eating();
                 break;
-        }
-
-        if (food > 0)
-        {
-            food -= .01f * Time.deltaTime;
-            if (food < 0) food = 0;
         }
     }
 
@@ -46,12 +42,13 @@ public class Steve : Entity
     {
         if (Time.time - idlingStartTime > idlingDuration)
         {
-            if (food < .5)
+            if (hunger < .5)
             {
-                target = GetNearestByTag("Beef");
-                if (target != null)
+                GameObject b = GetNearestByTag("Beef");
+                if (b != null)
                 {
-                    ToToGrazingState();
+                    food = b;
+                    ToToEatingState();
                     return;
                 }
             }
@@ -68,44 +65,49 @@ public class Steve : Entity
     {
         if (ai.reachedDestination)
         {
+            StopMoving();
             ToIdlingState();
         }
     }
     private void ToWanderingState()
     {
         state = State.Wandering;
-        SetDestination(new Vector2(Random.Range(-10, 10), Random.Range(-10, 10)));
+        SetTarget(new Vector2(Random.Range(-10f, 10f), Random.Range(-10, 10)));
+        StartMoving();
     }
 
     float eatingStartTime;
     float eatingDuration = 2f;
-    private void ToGrazing()
+    private void ToEating()
     {
+        SetTarget(food);
         if (ai.reachedDestination)
         {
-            ToGrazingState();
-            target.GetComponent<Beef>().ToBeingEatenState();
+            StopMoving();
+            food.GetComponent<Beef>().ToBeingEatenState();
+            ToEatingState();
         }
     }
-    private void ToToGrazingState()
+    private void ToToEatingState()
     {
         state = State.ToEating;
-        SetDestination(target);
+        StartMoving();
     }
-    private void Grazing()
+    private void Eating()
     {
         if (Time.time - eatingStartTime > eatingDuration)
         {
-            Destroy(target);
-            food += .3f;
-            //eatingParticle.Stop();
+            Debug.Log(gameObject.name + " Ate " + food.name);
+            Destroy(food);
+            hunger += .3f;
+            eatingParticle.Stop();
             ToIdlingState();
         }
     }
-    private void ToGrazingState()
+    private void ToEatingState()
     {
         state = State.Eating;
         eatingStartTime = Time.time;
-        //grazeParticle.Play();
+        eatingParticle.Play();
     }
 }

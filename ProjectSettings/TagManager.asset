@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bone
   - Beef
+  - BoneGrowing
   layers:
   - Default
   - TransparentFX
