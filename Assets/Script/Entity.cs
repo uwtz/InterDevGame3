@@ -1,8 +1,7 @@
 using UnityEngine;
 using Pathfinding;
-using static UnityEngine.GraphicsBuffer;
 
-public class Entity : MonoBehaviour
+public class Entity : Consumable
 {
     [Header("Info")]
     public int maxHealth;
@@ -28,7 +27,12 @@ public class Entity : MonoBehaviour
         if (hunger > 0)
         {
             hunger -= .01f * Time.deltaTime;
-            if (hunger < 0) hunger = 0;
+            if (hunger < 0)
+            {
+                Debug.Log(gameObject.name + "died of hunger");
+                hunger = 0;
+                Destroy(gameObject);
+            }
         }
 
         ai.canMove = canMove;
@@ -39,7 +43,7 @@ public class Entity : MonoBehaviour
     {
         health -= d;
     }
-    public GameObject GetNearestByTag(string tag)
+    public GameObject GetNearestConsumableByTag(string tag)
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag(tag);
         GameObject nearest = null;
@@ -47,8 +51,11 @@ public class Entity : MonoBehaviour
 
         foreach (GameObject obj in objs)
         {
+            Consumable c = obj.GetComponent<Consumable>();
+            if (c == null) continue;
+
             float dist = Vector3.Distance(obj.transform.position, transform.position);
-            if (dist < minDist)
+            if (!c.HasPredator() && dist < minDist)
             {
                 nearest = obj;
                 minDist = dist;

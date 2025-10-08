@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Steve : Entity
 {
@@ -12,12 +13,16 @@ public class Steve : Entity
         base.Start();
 
         eatingParticle = GetComponentInChildren<ParticleSystem>();
+
+        var agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     public override void Update()
     {
         base.Update();
-
+        
         switch (state)
         {
             case State.Idling:
@@ -44,10 +49,11 @@ public class Steve : Entity
         {
             if (hunger < .5)
             {
-                GameObject b = GetNearestByTag("Beef");
+                GameObject b = GetNearestConsumableByTag("Beef");
                 if (b != null)
                 {
                     food = b;
+                    food.GetComponent<Consumable>().ClaimConsumable(gameObject);
                     ToToEatingState();
                     return;
                 }
@@ -80,6 +86,13 @@ public class Steve : Entity
     float eatingDuration = 2f;
     private void ToEating()
     {
+        if (food == null)
+        {
+            StopMoving();
+            ToIdlingState();
+            return;
+        }
+
         SetTarget(food);
         if (ai.reachedDestination)
         {
@@ -91,15 +104,25 @@ public class Steve : Entity
     private void ToToEatingState()
     {
         state = State.ToEating;
+        SetTarget(food);
         StartMoving();
     }
     private void Eating()
     {
+        if (food == null)
+        {
+            StopMoving();
+            eatingParticle.Stop();
+            ToIdlingState();
+            return;
+        }
+
         if (Time.time - eatingStartTime > eatingDuration)
         {
-            Debug.Log(gameObject.name + " Ate " + food.name);
+            //Debug.Log(gameObject.name + " Ate " + food.name);
             Destroy(food);
             hunger += .3f;
+            if (hunger > 1) hunger = 1;
             eatingParticle.Stop();
             ToIdlingState();
         }

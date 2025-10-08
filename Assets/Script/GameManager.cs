@@ -17,14 +17,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] public GameObject beef;
+    [Range(1f, 100f)]
+    public float timeScale = 1f;
 
-    [SerializeField] GameObject bone;
-    float boneSpawnRate = 5f; // per min
+    [SerializeField] public GameObject beef;
+    [SerializeField] public GameObject bone;
+
+    float boneSpawnRate = 10f; // per min
     float boneLastSpawnTime = 0f;
 
     private void Update()
     {
+        Time.timeScale = timeScale;
+
         if (Time.time - boneLastSpawnTime > 60f / boneSpawnRate)
         {
             boneLastSpawnTime = Time.time;

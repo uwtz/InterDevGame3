@@ -44,26 +44,28 @@ public class Beef : Entity
 
 
     float idlingStartTime;
-    float idlingDuration = 5f;
+    float idlingDuration = 3f;
     private void Idling()
     {
         if (Time.time - idlingStartTime > idlingDuration)
         {
             if (hunger < .5f)
             {
-                GameObject b = GetNearestByTag("Bone");
+                GameObject b = GetNearestConsumableByTag("Bone");
                 if (b != null)
                 {
                     food = b;
+                    food.GetComponent<Consumable>().ClaimConsumable(gameObject);
                     ToToEatingState();
                     return;
                 }
             }
-            else if (hunger > .8f)
+            else if (hunger > .8f && !HasPredator())
             {
-                if (Random.Range(0f, 1f) > .9f)
+                //if (Random.Range(0f, 1f) > .5f)
                 {
                     ToReproducingState();
+                    return;
                 }
             }
             ToWanderingState();
@@ -109,11 +111,20 @@ public class Beef : Entity
     }
     private void Eating()
     {
+        if (food == null)
+        {
+            StopMoving();
+            eatingParticle.Stop();
+            ToIdlingState();
+            return;
+        }
+
         if (Time.time - eatingStartTime > eatingDuration)
         {
-            Debug.Log(gameObject.name + " Ate " + food.name);
+            //Debug.Log(gameObject.name + " Ate " + food.name);
             Destroy(food);
-            hunger += .3f;
+            hunger += .6f;
+            if (hunger > 1) hunger = 1;
             eatingParticle.Stop();
             ToIdlingState();
         }
@@ -138,6 +149,7 @@ public class Beef : Entity
 
     private void Reproducing()
     {
+        //Debug.Log(gameObject.name + "reproduced asexually");
         Instantiate(GameManager.instance.beef, transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
         Instantiate(GameManager.instance.beef, transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
         Destroy(gameObject);
