@@ -79,7 +79,7 @@ public class Beef : Entity
 
     private void Wandering()
     {
-        if (ai.reachedDestination)
+        if (ReachedDestination())
         {
             StopMoving();
             ToIdlingState();
@@ -97,7 +97,7 @@ public class Beef : Entity
     private void ToEating()
     {
         SetTarget(food);
-        if (ai.reachedDestination)
+        if (ReachedDestination())
         {
             StopMoving();
             ToEatingState();

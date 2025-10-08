@@ -36,4 +36,15 @@ public class GameManager : MonoBehaviour
             Instantiate(bone, new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), 0), Quaternion.identity);
         }
     }
+
+
+    [SerializeField] private Transform floor;
+    public Vector2 floorXBound;
+    public Vector2 floorYBound;
+
+    private void Start()
+    {
+        floorXBound = new Vector2(floor.position.x - floor.localScale.x / 2, floor.position.x + floor.localScale.x / 2);
+        floorYBound = new Vector2(floor.position.y - floor.localScale.y / 2, floor.position.y + floor.localScale.y / 2);
+    }
 }

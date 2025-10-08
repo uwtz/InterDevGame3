@@ -13,10 +13,6 @@ public class Steve : Entity
         base.Start();
 
         eatingParticle = GetComponentInChildren<ParticleSystem>();
-
-        var agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
     }
 
     public override void Update()
@@ -69,7 +65,7 @@ public class Steve : Entity
 
     private void Wandering()
     {
-        if (ai.reachedDestination)
+        if (ReachedDestination())
         {
             StopMoving();
             ToIdlingState();
@@ -78,7 +74,8 @@ public class Steve : Entity
     private void ToWanderingState()
     {
         state = State.Wandering;
-        SetTarget(new Vector2(Random.Range(-10f, 10f), Random.Range(-10, 10)));
+        SetRandomTarget();
+        //SetTarget(new Vector2(Random.Range(-10f, 10f), Random.Range(-10, 10)));
         StartMoving();
     }
 
@@ -94,7 +91,7 @@ public class Steve : Entity
         }
 
         SetTarget(food);
-        if (ai.reachedDestination)
+        if (ReachedDestination())
         {
             StopMoving();
             food.GetComponent<Beef>().ToBeingEatenState();
