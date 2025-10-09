@@ -255,7 +255,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1234539561413605499, guid: def7b573fbd824f9f9d7551a2ddf0ad2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6924247534849777074, guid: def7b573fbd824f9f9d7551a2ddf0ad2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5450,8 +5450,6 @@ MonoBehaviour:
   beef: {fileID: 1234539561413605499, guid: def7b573fbd824f9f9d7551a2ddf0ad2, type: 3}
   bone: {fileID: 1943305620060080516, guid: 50b28abbc0d65413695401c619396cf9, type: 3}
   floor: {fileID: 1332575676}
-  floorXBound: {x: 0, y: 0}
-  floorYBound: {x: 0, y: 0}
 --- !u!4 &640279938
 Transform:
   m_ObjectHideFlags: 0
@@ -5479,6 +5477,8 @@ GameObject:
   - component: {fileID: 915299464}
   - component: {fileID: 915299463}
   - component: {fileID: 915299472}
+  - component: {fileID: 915299473}
+  - component: {fileID: 915299474}
   m_Layer: 0
   m_Name: Steve
   m_TagString: Untagged
@@ -5595,6 +5595,69 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!58 &915299473
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915299462}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 1
+--- !u!50 &915299474
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915299462}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1013260518
 GameObject:
   m_ObjectHideFlags: 0
@@ -5604,7 +5667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1013260519}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5639,7 +5702,7 @@ GameObject:
   - component: {fileID: 1050731797}
   - component: {fileID: 1050731798}
   - component: {fileID: 1050731799}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5809,7 +5872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1219443132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5891,7 +5954,7 @@ GameObject:
   - component: {fileID: 1332575676}
   - component: {fileID: 1332575675}
   - component: {fileID: 1332575677}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5998,7 +6061,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1234539561413605499, guid: def7b573fbd824f9f9d7551a2ddf0ad2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6924247534849777074, guid: def7b573fbd824f9f9d7551a2ddf0ad2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6042,7 +6105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7427437620948475328, guid: def7b573fbd824f9f9d7551a2ddf0ad2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6143,7 +6206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1234539561413605499, guid: def7b573fbd824f9f9d7551a2ddf0ad2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6924247534849777074, guid: def7b573fbd824f9f9d7551a2ddf0ad2, type: 3}
       propertyPath: m_LocalPosition.x

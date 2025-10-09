@@ -30,6 +30,8 @@ public class Entity : Consumable
 
     public virtual void Update()
     {
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+
         //ai.canMove = canMove;
         //if (target != null) ai.destination = target;
         if (target != null)
@@ -90,8 +92,24 @@ public class Entity : Consumable
 
     private float destinationThreshold = .01f;
     public bool ReachedDestination()
-    { return Vector2.Distance(transform.position, target) < destinationThreshold; }
+    {
+        bool r = (Vector2.Distance(transform.position, target) < destinationThreshold) || (food != null && reachedFood);
+        //if (r) food = null;
+        return r;
+    }
 
+    private bool reachedFood = false;
+    protected void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject == food) reachedFood = true;
+    }
+    protected void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject == food) reachedFood = false;
+    }
+
+
+    /*
     public bool SetRandomTarget()
     {
         Vector2 fx = GameManager.instance.floorXBound;
@@ -111,8 +129,9 @@ public class Entity : Consumable
         }
 
         return false;
-    }
+    }*/
 
+    /*
     // https://docs.unity3d.com/6000.2/Documentation/ScriptReference/AI.NavMesh.SamplePosition.html
     private bool RandomPointOnNavMesh(Vector3 center, float range, out Vector3 result)
     {
@@ -128,5 +147,5 @@ public class Entity : Consumable
         }
         result = Vector3.zero;
         return false;
-    }
+    }*/
 }

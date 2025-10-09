@@ -88,7 +88,8 @@ public class Beef : Entity
     private void ToWanderingState()
     {
         state = State.Wandering;
-        SetTarget(new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
+        //SetTarget(new Vector2(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
+        SetTarget(GameManager.GetRandomPointOnNavMesh());
         StartMoving();
     }
 
