@@ -9,7 +9,7 @@ public class StateMachine
 
     public void ChangeState(State state)
     {
-        if (owner.debugState) { Debug.Log(owner.name + " from " + currentState.name + " to " + state.name); }
+        if (owner.debugState) { Debug.Log(owner.name + " to " + state.name); }
         owner.currentState = state.name;
         currentState.Exit();
         currentState = state;

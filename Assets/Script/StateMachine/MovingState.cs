@@ -30,8 +30,8 @@ public class MovingState : State
             owner.agent.SetDestination(targetGameObject.transform.position);
         }
 
-        if (Vector2.Distance(owner.transform.position, targetPos) <= .01 ||
-            (isTargetMoving && owner.reachedFood))
+        if (Vector2.Distance(owner.transform.position, targetPos) <= .01
+            || (isTargetMoving && owner.reachedFood))
         {
             onArrive.Invoke();
         }

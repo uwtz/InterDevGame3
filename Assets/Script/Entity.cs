@@ -29,6 +29,7 @@ public abstract class Entity : Consumable
     public WanderingState   wanderingState      { get; private set; }
     public GoingToFoodState goingToFoodState    { get; private set; }
     public EatingState      eatingState         { get; private set; }
+    public BeingEatenState  beingEatenstate     { get; private set; }
 
     public string currentState;
     public bool debugState = false;
@@ -42,6 +43,7 @@ public abstract class Entity : Consumable
         wanderingState = new WanderingState(this);
         goingToFoodState = new GoingToFoodState(this);
         eatingState = new EatingState(this);
+        beingEatenstate = new BeingEatenState(this);
 
 
         stateMachine.SetStartingState(idleState);

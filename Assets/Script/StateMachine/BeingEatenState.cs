@@ -9,13 +9,15 @@ public class BeingEatenState : State
     }
     public override void Enter()
     {
-        owner.agent.isStopped = true;
     }
 
     public override void Update()
     {
-
+        // leave beingEaten state if predator dies before finish eating
+        if (!owner.HasPredator()) owner.stateMachine.ChangeState(owner.idleState);
     }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+    }
 }
