@@ -3,6 +3,12 @@ using UnityEngine.AI;
 
 public class Steve : Entity
 {
+    public override string[] foods => new string[] { "Beef" };
+}
+
+/*
+public class SteveOld
+{
     public enum State { Idling, Wandering, ToEating, Eating };
     public State state = State.Idling;
 
@@ -131,3 +137,4 @@ public class Steve : Entity
         eatingParticle.Play();
     }
 }
+*/

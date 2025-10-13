@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class Beef : Entity
 {
+    public override string[] foods => new string[] { "Bone" };
+}
+
+/*
+public class BeefOld
+{
     public enum State { Idling, Wandering, ToEating, Eating, BeingEaten, Reproducing };
     public State state = State.Idling;
 
@@ -160,3 +166,4 @@ public class Beef : Entity
         state = State.Reproducing;
     }
 }
+*/
