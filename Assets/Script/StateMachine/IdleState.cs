@@ -29,6 +29,11 @@ public class IdleState : State
                     return;
                 }
             }
+            else if (owner.canReproduce && owner.TryGetComponent<Beef>(out Beef b))
+            {
+                owner.stateMachine.ChangeState(b.asexualReproducingState);
+                return;
+            }
 
             owner.stateMachine.ChangeState(owner.wanderingState);
 

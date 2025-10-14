@@ -103,11 +103,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5720c9a2f1f78554db8197425dcdb50e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  eatingParticle: {fileID: 0}
+  currentState: 
+  debugState: 0
+  agent: {fileID: 0}
   hunger: 0.5
-  canMove: 0
+  needFood: 0
+  food: {fileID: 0}
   reachedFood: 0
-  state: 0
+  canReproduce: 0
 --- !u!195 &-1065822612036890045
 NavMeshAgent:
   m_ObjectHideFlags: 0

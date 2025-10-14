@@ -16,7 +16,13 @@ public class EatingState : State
     {
         eatingStartTime = Time.time;
         owner.eatingParticle.Play();
-        
+
+        if (owner.food == null)
+        {
+            owner.stateMachine.ChangeState(owner.idleState);
+            return;
+        }
+
         if (owner.food.TryGetComponent<Entity>(out Entity entity))
         {
             entity.stateMachine.ChangeState(entity.beingEatenstate);
@@ -33,8 +39,8 @@ public class EatingState : State
 
         if (Time.time - eatingStartTime > eatingDuration)
         {
-            Object.Destroy(owner.food);
-            owner.AddHunger(.3f);
+            owner.food.GetComponent<Consumable>().Kill();
+            owner.AddHunger(.4f);
             owner.stateMachine.ChangeState(owner.idleState);
         }
     }

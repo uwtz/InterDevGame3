@@ -1,9 +1,39 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Beef : Entity
 {
     public override string[] foods => new string[] { "Bone" };
+
+
+    public AsexualReproducingState asexualReproducingState { get; private set; }
+
+    public override void StateStart()
+    {
+        base.StateStart();
+        asexualReproducingState = new AsexualReproducingState(this);
+    }
+
+    public override Vector2 WanderingPositionSelector()
+    {
+        var b = GetNearestConsumable("Beef");
+        if (b == null) { return GameManager.GetRandomPointOnNavMesh(); }
+
+        var c = b.GetComponent<Beef>().GetNearestConsumable("Beef");
+        if (c == null) { return GameManager.GetRandomPointOnNavMesh(); }
+
+
+        int i = Random.Range(-1, 1) > 0 ? 1 : -1;
+
+        var pos = (c.transform.position + b.transform.position);// * .5f + new Vector3(Random.Range(3, 5) * i, Random.Range(3, 5) * i);
+        if (NavMesh.SamplePosition(pos, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        return GameManager.GetRandomPointOnNavMesh();
+    }
 }
 
 /*

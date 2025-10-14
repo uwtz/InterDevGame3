@@ -4,6 +4,8 @@ using UnityEngine.AI;
 public class Steve : Entity
 {
     public override string[] foods => new string[] { "Beef" };
+
+
 }
 
 /*

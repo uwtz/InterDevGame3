@@ -10,7 +10,7 @@ public class WanderingState : State
 
     public override void Enter()
     {
-        owner.movingState.SetTarget(GameManager.GetRandomPointOnNavMesh());
+        owner.movingState.SetTarget(owner.WanderingPositionSelector());
         owner.movingState.onArrive = () => owner.stateMachine.ChangeState(owner.idleState);
 
         owner.stateMachine.ChangeState(owner.movingState);

@@ -10,6 +10,12 @@ public class Consumable : MonoBehaviour
     public bool HasPredator()
     { return predator != null; }
 
+    protected bool isDead = false;
+    public void Kill()
+    {
+        isDead = true;
+        Destroy(gameObject);
+    }
 
     // stats: energy
 }

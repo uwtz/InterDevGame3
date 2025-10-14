@@ -14,8 +14,11 @@ public class MovingState : State
 
     public override void Enter()
     {
-        owner.agent.SetDestination(targetPos);
-        StartMoving();
+        if (owner.agent.isOnNavMesh)
+        {
+            owner.agent.SetDestination(targetPos);
+            StartMoving();
+        }
     }
 
     public override void Update()
@@ -25,7 +28,7 @@ public class MovingState : State
             owner.stateMachine.ChangeState(owner.idleState);
         }
 
-        if (isTargetMoving)
+        if (isTargetMoving && owner.agent.isOnNavMesh)
         {
             owner.agent.SetDestination(targetGameObject.transform.position);
         }
@@ -56,17 +59,26 @@ public class MovingState : State
     {
         SetTarget(targetGameObject.transform.position);
         this.targetGameObject = targetGameObject;
-        isTargetMoving = true;
+        isTargetMoving = CheckIsTargetMoving(targetGameObject);
+    }
+
+    private bool CheckIsTargetMoving(GameObject go)
+    {
+        if (go.TryGetComponent<Entity>(out Entity e))
+        {
+            return true;
+        }
+        return false;
     }
 
     private void StartMoving()
     {
-        owner.agent.isStopped = false;
+        if (owner.agent.isOnNavMesh) owner.agent.isStopped = false;
     }
 
     private void StopMoving()
     {
-        owner.agent.isStopped = true;
+        if (owner.agent.isOnNavMesh) owner.agent.isStopped = true;
     }
 }
 

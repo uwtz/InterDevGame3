@@ -13,8 +13,12 @@ public abstract class Entity : Consumable
 
     private void Update()
     {
-        HungerUpdate();
-        stateMachine.Update();
+        if (!isDead)
+        {
+            stateMachine.Update();
+            HungerUpdate();
+        }
+
     }
 
 
@@ -34,7 +38,7 @@ public abstract class Entity : Consumable
     public string currentState;
     public bool debugState = false;
 
-    private void StateStart()
+    public virtual void StateStart()
     {
         stateMachine = new StateMachine(this);
 
@@ -71,16 +75,17 @@ public abstract class Entity : Consumable
     {
         if (hunger > 0)
         {
-            hunger -= .01f * Time.deltaTime;
+            hunger -= .005f * Time.deltaTime;
         }
         if (hunger <= 0)
         {
             Debug.Log(gameObject.name + " died of hunger");
             hunger = 0;
-            Destroy(gameObject);
+            Kill();
         }
 
         needFood = hunger <= lookForFoodThreshold ? true : false;
+        canReproduce = reproduceHungerThreshold <= hunger ? true : false;
     }
 
     public void AddHunger(float h)
@@ -94,7 +99,7 @@ public abstract class Entity : Consumable
 
     public GameObject FindFood()
     {
-        food = GetNearestConsumable();
+        food = GetNearestConsumable(foods);
         return food;
     }
     public GameObject GetFood()
@@ -102,13 +107,13 @@ public abstract class Entity : Consumable
         return food;
     }
 
-    private GameObject GetNearestConsumable()
+    protected GameObject GetNearestConsumable(string[] s)
     {
 
         List<GameObject> objs = new List<GameObject>();
-        for (int i=0; i<foods.Length; i++)
+        for (int i=0; i<s.Length; i++)
         {
-            objs.AddRange(GameObject.FindGameObjectsWithTag(foods[i]));
+            objs.AddRange(GameObject.FindGameObjectsWithTag(s[i]));
         }
         
         GameObject nearest = null;
@@ -129,6 +134,11 @@ public abstract class Entity : Consumable
         return nearest;
     }
 
+    protected GameObject GetNearestConsumable(string s)
+    {
+        return GetNearestConsumable(new string[] { s });
+    }
+
     public bool reachedFood = false;
     protected void OnTriggerEnter2D(Collider2D col)
     {
@@ -137,6 +147,17 @@ public abstract class Entity : Consumable
     protected void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject == food) reachedFood = false;
+    }
+
+
+    public bool canReproduce = false;
+    private float reproduceHungerThreshold = .8f;
+
+
+
+    public virtual Vector2 WanderingPositionSelector()
+    {
+        return GameManager.GetRandomPointOnNavMesh();
     }
 }
 

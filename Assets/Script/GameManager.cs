@@ -57,12 +57,17 @@ public class GameManager : MonoBehaviour
         Vector2 center = new Vector2(Random.Range(floorXBound[0], floorXBound[1]),
                                      Random.Range(floorYBound[0], floorYBound[1]));
 
+        return GetRandomPointOnNavMesh(center);
+    }
+
+    public static Vector2 GetRandomPointOnNavMesh(Vector2 p)
+    {
         Vector2 result = new Vector2(Mathf.Infinity, Mathf.Infinity);
 
         float range = 10.0f;
         for (int i = 0; i < 30; i++)
         {
-            Vector2 randomPoint = center + Random.insideUnitCircle * range;
+            Vector2 randomPoint = p + Random.insideUnitCircle * range;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
             {
