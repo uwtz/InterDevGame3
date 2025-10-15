@@ -22,11 +22,14 @@ public class AsexualReproducingState : State
     {
         if (Time.time - reproducingStartTime > reproducingDuration)
         {
-            Object.Instantiate(GameManager.instance.beef, owner.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
-            //Object.Instantiate(GameManager.instance.beef, owner.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
+            GameObject child = Object.Instantiate(GameManager.instance.beef, owner.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
+            GameObject child2 = Object.Instantiate(GameManager.instance.beef, owner.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
             //Object.Destroy(owner.gameObject);
-            owner.AddHunger(-.5f);
 
+            owner.AddHunger(-owner.reproductionHungerCost);
+            owner.timeLastReproduced = Time.time;
+            child.GetComponent<Entity>().timeLastReproduced = Time.time;
+            child2.GetComponent<Entity>().timeLastReproduced = Time.time;
             owner.stateMachine.ChangeState(owner.idleState);
         }
     }

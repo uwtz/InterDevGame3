@@ -34,7 +34,7 @@ public class MovingState : State
         }
 
         if (Vector2.Distance(owner.transform.position, targetPos) <= .01
-            || (isTargetMoving && owner.reachedFood))
+            || (isTargetMoving && owner.reachedTarget))
         {
             onArrive.Invoke();
         }

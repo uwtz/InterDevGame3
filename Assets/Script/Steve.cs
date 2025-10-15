@@ -5,7 +5,67 @@ public class Steve : Entity
 {
     public override string[] foods => new string[] { "Beef" };
 
+    public GoingToPartnerState goingToPartnerState { get; private set; }
+    public ReproducingState reproducingState { get; private set; }
 
+    public override void StateStart()
+    {
+        base.StateStart();
+        goingToPartnerState = new GoingToPartnerState(this);
+        reproducingState = new ReproducingState(this);
+    }
+
+    private GameObject partner = null;
+    [HideInInspector] public bool isTaken = false;
+    public bool isFemale = false;
+
+    // find nearest steve that isnt taken
+    public bool FindNearestPartner(out GameObject partner)
+    {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("Steve");
+
+        partner = null;
+        float minDist = Mathf.Infinity;
+
+        foreach (GameObject p in objs)
+        {
+            Steve potentialPartner = p.GetComponent<Steve>();
+            if (potentialPartner == null || potentialPartner == this) continue;
+
+            float dist = Vector3.Distance(p.transform.position, transform.position);
+            if (!potentialPartner.isTaken && potentialPartner.canReproduce && dist < minDist)
+            {
+                partner = p;
+                minDist = dist;
+            }
+        }
+
+        if (partner != null) { return true; }
+        return false;
+    }
+
+    public override void PostIdleStateSelector()
+    {
+        if (canReproduce && !isTaken)
+        {
+            if (FindNearestPartner(out GameObject partner))
+            {
+                this.partner = partner;
+                Steve partnerScript = this.partner.GetComponent<Steve>();
+                partnerScript.SetTarget(gameObject);
+                SetTarget(this.partner);
+
+                isFemale = true;
+                isTaken = true;
+                partnerScript.isTaken = true;
+
+                stateMachine.ChangeState(goingToPartnerState);
+                partnerScript.stateMachine.ChangeState(partnerScript.goingToPartnerState);
+                return;
+            }
+        }
+        base.PostIdleStateSelector();
+    }
 }
 
 /*

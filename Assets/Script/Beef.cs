@@ -15,6 +15,7 @@ public class Beef : Entity
         asexualReproducingState = new AsexualReproducingState(this);
     }
 
+    // go to mid point of two close beefs
     public override Vector2 WanderingPositionSelector()
     {
         var b = GetNearestConsumable("Beef");
@@ -33,6 +34,16 @@ public class Beef : Entity
         }
 
         return GameManager.GetRandomPointOnNavMesh();
+    }
+
+    public override void PostIdleStateSelector()
+    {
+        if (canReproduce)
+        {
+            stateMachine.ChangeState(asexualReproducingState);
+            return;
+        }
+        base.PostIdleStateSelector();
     }
 }
 

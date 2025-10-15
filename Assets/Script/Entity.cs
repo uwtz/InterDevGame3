@@ -8,6 +8,8 @@ public abstract class Entity : Consumable
     {
         StateStart();
         AIStart();
+
+        agent.speed = speed;
         eatingParticle = GetComponentInChildren<ParticleSystem>();
     }
 
@@ -17,12 +19,15 @@ public abstract class Entity : Consumable
         {
             stateMachine.Update();
             HungerUpdate();
+            ReproductionUpdate();
         }
-
     }
 
+    [Header("misc")]
+    public float speed = 3f;
 
     [HideInInspector] public ParticleSystem eatingParticle;
+
 
 
 
@@ -35,6 +40,8 @@ public abstract class Entity : Consumable
     public EatingState      eatingState         { get; private set; }
     public BeingEatenState  beingEatenstate     { get; private set; }
 
+
+    [Header("State Machine")]
     public string currentState;
     public bool debugState = false;
 
@@ -54,7 +61,7 @@ public abstract class Entity : Consumable
     }
 
     [HideInInspector]
-    public  NavMeshAgent agent;
+    public NavMeshAgent agent;
 
     private void AIStart()
     {
@@ -64,28 +71,54 @@ public abstract class Entity : Consumable
     }
 
 
+    [Header("Target")]
+    public GameObject target;// { get; private set; }
+    public void SetTarget(GameObject target)
+    {
+        this.target = target;
+        reachedTarget = false;
+    }
+    public bool reachedTarget = false;
+
+
+    protected void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject == target) reachedTarget = true;
+    }
+    protected void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.gameObject == target) reachedTarget = true;
+    }
+    protected void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject == target) reachedTarget = false;
+    }
+
+
+
+    [Header("Hunger (0-hungry to 1-full)")]
 
     // Range 0 (hungry) to 1 (full)
-    public float hunger = .7f;
-    float lookForFoodThreshold = .6f;
+    public float hunger = .5f;
+    public float hungerLossRate = .005f;
+    public float EatHungerThreshold = .6f;
     public bool needFood = false;
-    public GameObject food;
 
     private void HungerUpdate()
     {
         if (hunger > 0)
         {
-            hunger -= .005f * Time.deltaTime;
+            hunger -= hungerLossRate * Time.deltaTime;
         }
         if (hunger <= 0)
         {
             Debug.Log(gameObject.name + " died of hunger");
+            //if (debugState) { Debug.Log(gameObject.name + " died of hunger"); }
             hunger = 0;
             Kill();
         }
 
-        needFood = hunger <= lookForFoodThreshold ? true : false;
-        canReproduce = reproduceHungerThreshold <= hunger ? true : false;
+        needFood = hunger <= EatHungerThreshold ? true : false;
     }
 
     public void AddHunger(float h)
@@ -99,12 +132,7 @@ public abstract class Entity : Consumable
 
     public GameObject FindFood()
     {
-        food = GetNearestConsumable(foods);
-        return food;
-    }
-    public GameObject GetFood()
-    {
-        return food;
+        return GetNearestConsumable(foods);
     }
 
     protected GameObject GetNearestConsumable(string[] s)
@@ -139,25 +167,43 @@ public abstract class Entity : Consumable
         return GetNearestConsumable(new string[] { s });
     }
 
-    public bool reachedFood = false;
-    protected void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject == food) reachedFood = true;
-    }
-    protected void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.gameObject == food) reachedFood = false;
-    }
 
 
+    [Header("Reproduction")]
+
+    public float reproductionCooldown = 0f; // cooldown is applied to both parent and child
+    [HideInInspector] public float timeLastReproduced;
+    public float reproductionHungerThreshold = .7f;
+    public float reproductionHungerCost = .5f;
     public bool canReproduce = false;
-    private float reproduceHungerThreshold = .8f;
-
 
 
     public virtual Vector2 WanderingPositionSelector()
     {
         return GameManager.GetRandomPointOnNavMesh();
+    }
+
+    private void ReproductionUpdate()
+    {
+        canReproduce = reproductionHungerThreshold <= hunger && Time.time-timeLastReproduced >= reproductionCooldown ? true : false;
+    }
+
+
+
+    public virtual void PostIdleStateSelector()
+    {
+        if (needFood)
+        {
+            GameObject f = FindFood();
+            if (f != null)
+            {
+                SetTarget(f);
+                target.GetComponent<Consumable>().ClaimConsumable(gameObject);
+                stateMachine.ChangeState(goingToFoodState);
+                return;
+            }
+        }
+        stateMachine.ChangeState(wanderingState);
     }
 }
 

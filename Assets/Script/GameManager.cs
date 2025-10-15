@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [Range(1f, 100f)]
     public float timeScale = 1f;
 
+    [SerializeField] public GameObject steve;
     [SerializeField] public GameObject beef;
     [SerializeField] public GameObject bone;
 

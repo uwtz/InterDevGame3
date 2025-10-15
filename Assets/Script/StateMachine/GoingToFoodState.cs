@@ -10,7 +10,7 @@ public class GoingToFoodState : State
 
     public override void Enter()
     {
-        owner.movingState.SetTarget(owner.GetFood());
+        owner.movingState.SetTarget(owner.target);
         owner.movingState.onArrive = () => owner.stateMachine.ChangeState(owner.eatingState);
 
         owner.stateMachine.ChangeState(owner.movingState);

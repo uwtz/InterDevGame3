@@ -19,30 +19,7 @@ public class IdleState : State
     {
         if (Time.time - idleStartTime >= idleDuration)
         {
-            if (owner.needFood)
-            {
-                owner.FindFood();
-                if (owner.GetFood() != null)
-                {
-                    owner.food.GetComponent<Consumable>().ClaimConsumable(owner.gameObject);
-                    owner.stateMachine.ChangeState(owner.goingToFoodState);
-                    return;
-                }
-            }
-            else if (owner.canReproduce && owner.TryGetComponent<Beef>(out Beef b))
-            {
-                owner.stateMachine.ChangeState(b.asexualReproducingState);
-                return;
-            }
-
-            owner.stateMachine.ChangeState(owner.wanderingState);
-
-
-            // default: go wander
-            // if class is Steve: wander or eat
-            // if class if Beef: reproduce or wander or eat
-
-            // or? use owner.
+            owner.PostIdleStateSelector();
         }    
     }
     public override void Exit() { }

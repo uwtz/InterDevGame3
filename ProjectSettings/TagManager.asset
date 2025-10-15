@@ -7,6 +7,7 @@ TagManager:
   - Bone
   - Beef
   - BoneGrowing
+  - Steve
   layers:
   - Default
   - TransparentFX
