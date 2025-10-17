@@ -4937,6 +4937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55d7cf07e78a99c4a897c5e05dea0af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lifeSpan: 300
   speed: 3
   eatingParticle: {fileID: 0}
   currentState: 
@@ -4955,6 +4956,7 @@ MonoBehaviour:
   canReproduce: 0
   isTaken: 0
   isFemale: 0
+  childPrefab: {fileID: 5933288639725507189}
 --- !u!195 &7987796062800613629
 NavMeshAgent:
   m_ObjectHideFlags: 0

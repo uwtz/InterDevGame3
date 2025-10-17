@@ -691,10 +691,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeScale: 1
+  steven: {fileID: 2033070129726572749, guid: c0d429b3f9b6d4897b8b69cfed331823, type: 3}
   steve: {fileID: 5933288639725507189, guid: 11b1dd52a9f724f45af67c3af6ec90f6, type: 3}
   beef: {fileID: 1234539561413605499, guid: def7b573fbd824f9f9d7551a2ddf0ad2, type: 3}
   bone: {fileID: 1943305620060080516, guid: 50b28abbc0d65413695401c619396cf9, type: 3}
   floor: {fileID: 1332575676}
+  beefCount: 0
+  steveCount: 0
 --- !u!4 &640279938
 Transform:
   m_ObjectHideFlags: 0

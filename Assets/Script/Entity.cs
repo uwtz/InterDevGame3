@@ -15,6 +15,7 @@ public abstract class Entity : Consumable
 
     private void Update()
     {
+        if (Time.time-spawnTime >= lifeSpan) { Kill(); }
         if (!isDead)
         {
             stateMachine.Update();
@@ -24,6 +25,8 @@ public abstract class Entity : Consumable
     }
 
     [Header("misc")]
+    public float lifeSpan = 300f;
+    private float spawnTime;
     public float speed = 3f;
 
     [HideInInspector] public ParticleSystem eatingParticle;
@@ -118,7 +121,7 @@ public abstract class Entity : Consumable
             Kill();
         }
 
-        needFood = hunger <= EatHungerThreshold ? true : false;
+        needFood = hunger <= EatHungerThreshold;
     }
 
     public void AddHunger(float h)
@@ -185,7 +188,7 @@ public abstract class Entity : Consumable
 
     private void ReproductionUpdate()
     {
-        canReproduce = reproductionHungerThreshold <= hunger && Time.time-timeLastReproduced >= reproductionCooldown ? true : false;
+        canReproduce = reproductionHungerThreshold <= hunger && Time.time-timeLastReproduced >= reproductionCooldown;
     }
 
 

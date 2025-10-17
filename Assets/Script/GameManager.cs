@@ -18,17 +18,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        SpawnBone();
+        MaintainPopulation();
+    }
+
+
+
     [Range(1f, 100f)]
     public float timeScale = 1f;
 
-    [SerializeField] public GameObject steve;
-    [SerializeField] public GameObject beef;
-    [SerializeField] public GameObject bone;
+    public GameObject steven;
+    public GameObject steve;
+    public GameObject beef;
+    public GameObject bone;
 
     float boneSpawnRate = 10f; // per min
     float boneLastSpawnTime = 0f;
 
-    private void Update()
+    private void SpawnBone()
     {
         Time.timeScale = timeScale;
 
@@ -52,7 +61,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    // get random point
     public static Vector2 GetRandomPointOnNavMesh()
     {
         Vector2 center = new Vector2(Random.Range(floorXBound[0], floorXBound[1]),
@@ -61,6 +70,7 @@ public class GameManager : MonoBehaviour
         return GetRandomPointOnNavMesh(center);
     }
 
+    // get random point around given point
     public static Vector2 GetRandomPointOnNavMesh(Vector2 p)
     {
         Vector2 result = new Vector2(Mathf.Infinity, Mathf.Infinity);
@@ -79,5 +89,19 @@ public class GameManager : MonoBehaviour
 
         //Debug.Log(result);
         return result;
+    }
+
+
+
+    public int beefCount;
+    public int steveCount;
+    private void MaintainPopulation()
+    {
+        beefCount = GameObject.FindGameObjectsWithTag("Beef").Length;
+        steveCount = GameObject.FindGameObjectsWithTag("Steve").Length;
+        if (beefCount < 1)
+        { Instantiate(beef, GetRandomPointOnNavMesh(), Quaternion.identity); }
+        if (steveCount < 2)
+        { Instantiate(steve, GetRandomPointOnNavMesh(), Quaternion.identity); }
     }
 }
