@@ -4938,7 +4938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeSpan: 300
-  speed: 3
+  speed: 5
   eatingParticle: {fileID: 0}
   currentState: 
   debugState: 0
@@ -4946,17 +4946,17 @@ MonoBehaviour:
   target: {fileID: 0}
   reachedTarget: 0
   hunger: 0.5
-  hungerLossRate: 0.005
-  EatHungerThreshold: 0.6
+  hungerLossRate: 0.015
+  EatHungerThreshold: 0.7
   needFood: 0
-  reproductionCooldown: 20
+  reproductionCooldown: 10
   timeLastReproduced: 0
-  reproductionHungerThreshold: 0.7
-  reproductionHungerCost: 0.5
+  reproductionHungerThreshold: 0.6
+  reproductionHungerCost: 0.2
   canReproduce: 0
   isTaken: 0
   isFemale: 0
-  childPrefab: {fileID: 5933288639725507189}
+  chanceToBirthSteven: 0.1
 --- !u!195 &7987796062800613629
 NavMeshAgent:
   m_ObjectHideFlags: 0

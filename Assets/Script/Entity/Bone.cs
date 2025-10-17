@@ -3,11 +3,11 @@ using UnityEngine;
 public class Bone : Consumable
 {
     public float lifetime = 0f;
-    private float maxLifetime = 60f;
+    private float maxLifetime = 120f;
     
     public float growth = 0;
     float growthRate = .2f;
-    bool fullyGrown = false;
+    bool isFullyGrown = false;
 
     float minScale = .1f;
     float maxScale = 1f;
@@ -16,33 +16,30 @@ public class Bone : Consumable
     {
         lifetime += Time.deltaTime;
         if (lifetime >= maxLifetime && !HasPredator())
-        { Destroy(gameObject); }
+        { Kill(); }
 
 
         // grow
-        if (!IsFullyGrown() && growth < 1)
+        if (!isFullyGrown && growth < 1)
         {
             growth += growthRate * Time.deltaTime;
-            if (growth >= 1)
-            {
-                growth = 1;
-                fullyGrown = true;
-                tag = "Bone";
-            }
+        }
+        if (growth >= 1)
+        {
+            growth = 1;
+            isFullyGrown = true;
+            tag = "Bone";
         }
 
         float s = (maxScale - minScale) * growth + minScale;
         transform.localScale = new Vector3(s, s, 0);
 
         // sprout bones at nearby locations
-        if (IsFullyGrown())
+        if (isFullyGrown)
         {
             //SproutBonesPeriodically();
         }
     }
-
-    public bool IsFullyGrown()
-    { return fullyGrown; }
 
     /*
     float boneSpawnRate = 1f; // per min

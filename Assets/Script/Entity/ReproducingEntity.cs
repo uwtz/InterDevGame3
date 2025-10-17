@@ -4,13 +4,6 @@ using UnityEngine;
 // a helper class so ReproducingState can cast the owner entity to this class and call Reproduce()
 public abstract class ReproducingEntityBase : Entity
 {
-    [HideInInspector] public bool isTaken = false;
-    public bool isFemale = false;
-    public virtual void Reproduce() { }
-}
-
-public abstract class ReproducingEntity<R> : ReproducingEntityBase where R : ReproducingEntity<R> // crtp
-{
     public GoingToPartnerState goingToPartnerState { get; private set; }
     public ReproducingState reproducingState { get; private set; }
 
@@ -20,6 +13,15 @@ public abstract class ReproducingEntity<R> : ReproducingEntityBase where R : Rep
         goingToPartnerState = new GoingToPartnerState(this);
         reproducingState = new ReproducingState(this);
     }
+
+    [HideInInspector] public bool isTaken = false;
+    public bool isFemale = false;
+    public virtual void Reproduce() { }
+}
+
+public abstract class ReproducingEntity<R> : ReproducingEntityBase where R : ReproducingEntity<R> // crtp
+{
+
 
     private R partner = null;
 

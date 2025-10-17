@@ -8,7 +8,8 @@ public class MovingState : State
     private GameObject targetGameObject;
     private bool isTargetMoving;
     
-    public Action onArrive;
+    public Action onArrive = () => { };
+    public Action onFail = () => { };
 
     public MovingState(Entity owner) : base(owner) { }
 
@@ -25,6 +26,7 @@ public class MovingState : State
     {
         if (isTargetMoving && targetGameObject == null)
         {
+            onFail.Invoke();
             owner.stateMachine.ChangeState(owner.idleState);
         }
 

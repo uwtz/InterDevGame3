@@ -9,6 +9,7 @@ public abstract class Entity : Consumable
         StateStart();
         AIStart();
 
+        spawnTime = Time.time;
         agent.speed = speed;
         eatingParticle = GetComponentInChildren<ParticleSystem>();
     }
@@ -115,7 +116,7 @@ public abstract class Entity : Consumable
         }
         if (hunger <= 0)
         {
-            Debug.Log(gameObject.name + " died of hunger");
+            //Debug.Log(gameObject.name + " died of hunger");
             //if (debugState) { Debug.Log(gameObject.name + " died of hunger"); }
             hunger = 0;
             Kill();

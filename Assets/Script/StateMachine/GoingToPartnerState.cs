@@ -7,9 +7,14 @@ public class GoingToPartnerState : State
 
     public override void Enter()
     {
-        Steve o = (Steve)owner;
+        ReproducingEntityBase o = (ReproducingEntityBase)owner;
         o.movingState.SetTarget(o.target);
         o.movingState.onArrive = () => o.stateMachine.ChangeState(o.reproducingState);
+        o.movingState.onFail = () =>
+        {
+            o.isTaken = false;
+            o.isFemale = false;
+        };
 
         o.stateMachine.ChangeState(o.movingState);
     }

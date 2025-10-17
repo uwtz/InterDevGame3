@@ -15,19 +15,20 @@ public class Beef : Entity
         asexualReproducingState = new AsexualReproducingState(this);
     }
 
-    // go to mid point of two close beefs
     public override Vector2 WanderingPositionSelector()
     {
         var b = GetNearestConsumable("Beef");
         if (b == null) { return GameManager.GetRandomPointOnNavMesh(); }
-
         var c = b.GetComponent<Beef>().GetNearestConsumable("Beef");
         if (c == null) { return GameManager.GetRandomPointOnNavMesh(); }
+        var d = c.GetComponent<Beef>().GetNearestConsumable("Beef");
+        if (d == null) { return GameManager.GetRandomPointOnNavMesh(); }
 
 
         int i = Random.Range(-1, 1) > 0 ? 1 : -1;
 
-        var pos = (c.transform.position + b.transform.position);// * .5f + new Vector3(Random.Range(3, 5) * i, Random.Range(3, 5) * i);
+        //var pos = (c.transform.position + b.transform.position) * .5f + new Vector3(Random.Range(5, 20) * i, Random.Range(5, 20) * i);
+        var pos = (b.transform.position + c.transform.position + d.transform.position) / 3 + new Vector3(Random.Range(5, 10) * i, Random.Range(5, 10) * i);
         if (NavMesh.SamplePosition(pos, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
         {
             return hit.position;

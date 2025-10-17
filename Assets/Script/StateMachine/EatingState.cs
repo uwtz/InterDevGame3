@@ -39,7 +39,7 @@ public class EatingState : State
 
         if (Time.time - eatingStartTime > eatingDuration)
         {
-            Debug.Log(owner.name + " ate " + owner.target.name);
+            //Debug.Log(owner.name + " ate " + owner.target.name);
             owner.target.GetComponent<Consumable>().Kill();
             owner.AddHunger(.4f);
             owner.stateMachine.ChangeState(owner.idleState);

@@ -4937,22 +4937,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94589e076827c439e926a3311b390f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeSpan: 100
-  speed: 5
+  lifeSpan: 60
+  speed: 7
   eatingParticle: {fileID: 0}
   currentState: 
   debugState: 0
   agent: {fileID: 0}
   target: {fileID: 0}
   reachedTarget: 0
-  hunger: 0.5
-  hungerLossRate: 0.01
+  hunger: 1
+  hungerLossRate: 0.03
   EatHungerThreshold: 0.9
   needFood: 0
-  reproductionCooldown: 40
+  reproductionCooldown: 10
   timeLastReproduced: 0
-  reproductionHungerThreshold: 0.8
-  reproductionHungerCost: 0.5
+  reproductionHungerThreshold: 0.4
+  reproductionHungerCost: 0.2
   canReproduce: 0
   isTaken: 0
   isFemale: 0

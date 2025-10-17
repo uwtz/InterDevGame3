@@ -4,7 +4,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class AsexualReproducingState : State
 {
     public override string name => "AsexualReproducing";
-    float reproducingDuration = 3f;
+    float reproducingDuration = 1f;
     float reproducingStartTime;
 
 
@@ -23,13 +23,13 @@ public class AsexualReproducingState : State
         if (Time.time - reproducingStartTime > reproducingDuration)
         {
             GameObject child = Object.Instantiate(GameManager.instance.beef, owner.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
-            GameObject child2 = Object.Instantiate(GameManager.instance.beef, owner.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
+            //GameObject child2 = Object.Instantiate(GameManager.instance.beef, owner.transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0), Quaternion.identity);
             //Object.Destroy(owner.gameObject);
 
             owner.AddHunger(-owner.reproductionHungerCost);
             owner.timeLastReproduced = Time.time;
             child.GetComponent<Entity>().timeLastReproduced = Time.time;
-            child2.GetComponent<Entity>().timeLastReproduced = Time.time;
+            //child2.GetComponent<Entity>().timeLastReproduced = Time.time;
             owner.stateMachine.ChangeState(owner.idleState);
         }
     }

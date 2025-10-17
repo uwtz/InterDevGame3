@@ -103,8 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5720c9a2f1f78554db8197425dcdb50e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeSpan: 300
-  speed: 3
+  lifeSpan: 200
+  speed: 4
   eatingParticle: {fileID: 0}
   currentState: 
   debugState: 0
@@ -112,13 +112,13 @@ MonoBehaviour:
   target: {fileID: 0}
   reachedTarget: 0
   hunger: 0.5
-  hungerLossRate: 0.005
+  hungerLossRate: 0.01
   EatHungerThreshold: 0.6
   needFood: 0
-  reproductionCooldown: 0
+  reproductionCooldown: 5
   timeLastReproduced: 0
   reproductionHungerThreshold: 0.7
-  reproductionHungerCost: 0.5
+  reproductionHungerCost: 0.1
   canReproduce: 0
 --- !u!195 &-1065822612036890045
 NavMeshAgent:

@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class Steve : ReproducingEntity<Steve>
 {
     public override string[] foods => new string[] { "Beef" };
-    public float chanceToBirthSteven = .25f;
+    public float chanceToBirthSteven = .15f;
 
     public override GameObject GetChildPrefab()
     {
