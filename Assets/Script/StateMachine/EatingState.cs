@@ -27,6 +27,9 @@ public class EatingState : State
         {
             entity.stateMachine.ChangeState(entity.beingEatenstate);
         }
+
+        if (owner.animator != null)
+        { owner.animator.SetBool("isEating", true); }
     }
 
     public override void Update()
@@ -49,5 +52,8 @@ public class EatingState : State
     public override void Exit()
     {
         owner.eatingParticle.Stop();
+
+        if (owner.animator != null)
+        { owner.animator.SetBool("isEating", false); }
     }
 }

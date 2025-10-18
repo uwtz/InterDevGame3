@@ -4,18 +4,23 @@ using System.Collections.Generic;
 
 public abstract class Entity : Consumable
 {
-    private void Start()
+    public override void Start()
     {
+        base.Start();
+
         StateStart();
         AIStart();
 
         spawnTime = Time.time;
         agent.speed = speed;
         eatingParticle = GetComponentInChildren<ParticleSystem>();
+        animator = GetComponentInChildren<Animator>();
     }
 
-    private void Update()
+    public override void Update()
     {
+        base.Update();
+
         if (Time.time-spawnTime >= lifeSpan) { Kill(); }
         if (!isDead)
         {
@@ -31,6 +36,7 @@ public abstract class Entity : Consumable
     public float speed = 3f;
 
     [HideInInspector] public ParticleSystem eatingParticle;
+    [HideInInspector] public Animator animator;
 
 
 
@@ -123,6 +129,10 @@ public abstract class Entity : Consumable
         }
 
         needFood = hunger <= EatHungerThreshold;
+
+
+        if (animator != null)
+        { animator.SetBool("isHungry", needFood); }
     }
 
     public void AddHunger(float h)

@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     {
         SpawnBone();
         MaintainPopulation();
+        Time.timeScale = timeScale;
     }
 
 
@@ -50,8 +51,6 @@ public class GameManager : MonoBehaviour
 
     private void SpawnBone()
     {
-        Time.timeScale = timeScale;
-
         if (Time.time - boneLastSpawnTime > 60f / boneSpawnRate)
         {
             boneLastSpawnTime = Time.time;
@@ -157,4 +156,13 @@ public class GameManager : MonoBehaviour
         //Debug.Log(result);
         return result;
     }
+
+    public void SetTimeScale(float s)
+    {
+        timeScale = s;
+    }
+
+
+
+    public GameObject heartParticle;
 }

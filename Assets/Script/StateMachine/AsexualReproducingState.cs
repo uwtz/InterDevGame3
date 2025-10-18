@@ -6,7 +6,7 @@ public class AsexualReproducingState : State
     public override string name => "AsexualReproducing";
     float reproducingDuration = 1f;
     float reproducingStartTime;
-
+    ParticleSystem heartParticle;
 
 
     public AsexualReproducingState(Entity owner) : base(owner)
@@ -16,6 +16,8 @@ public class AsexualReproducingState : State
     public override void Enter()
     {
         reproducingStartTime = Time.time;
+        heartParticle = Object.Instantiate(GameManager.instance.heartParticle, owner.transform.position + new Vector3(0, 2), Quaternion.identity).GetComponent<ParticleSystem>();
+        heartParticle.Play();
     }
 
     public override void Update()
@@ -36,5 +38,7 @@ public class AsexualReproducingState : State
 
     public override void Exit()
     {
+        heartParticle.Stop();
+        GameObject.Destroy(heartParticle.gameObject);
     }
 }

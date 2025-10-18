@@ -9,11 +9,15 @@ public class Bone : Consumable
     float growthRate = .2f;
     bool isFullyGrown = false;
 
-    float minScale = .1f;
+    float minScale = .5f;
     float maxScale = 1f;
 
-    private void Update()
+    [SerializeField] Sprite[] sprites;
+
+    public override void Update()
     {
+        base.Update();
+
         lifetime += Time.deltaTime;
         if (lifetime >= maxLifetime && !HasPredator())
         { Kill(); }
@@ -39,6 +43,12 @@ public class Bone : Consumable
         {
             //SproutBonesPeriodically();
         }
+
+
+
+        if (growth < .5) { sr.sprite = sprites[0]; }
+        else if (growth < 1) { sr.sprite = sprites[1]; }
+        else { sr.sprite = sprites[2]; }
     }
 
     /*

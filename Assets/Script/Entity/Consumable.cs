@@ -17,5 +17,15 @@ public class Consumable : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // stats: energy
+    public SpriteRenderer sr;
+
+    public virtual void Start()
+    {
+        sr = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    public virtual void Update()
+    {
+        sr.sortingOrder = (int)-transform.position.y;
+    }
 }

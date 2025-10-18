@@ -20,6 +20,9 @@ public class MovingState : State
             owner.agent.SetDestination(targetPos);
             StartMoving();
         }
+
+        if (owner.animator != null)
+        { owner.animator.SetBool("isMoving", true); }
     }
 
     public override void Update()
@@ -40,6 +43,8 @@ public class MovingState : State
         {
             onArrive.Invoke();
         }
+
+        owner.sr.flipX = owner.transform.position.x < targetPos.x;
     }
 
     public override void Exit()
@@ -50,6 +55,9 @@ public class MovingState : State
 
         onArrive = null;
         StopMoving();
+
+        if (owner.animator != null)
+        { owner.animator.SetBool("isMoving", false); }
     }
 
     public void SetTarget(Vector2 targetPos)
